@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="textview_margin">30dp</dimen>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="analytics_category">Sample</string>
+    <string name="analytics_screen">Sample Activity</string>
+    <string name="analytics_action">Click</string>
+    <string name="analytics_label">Click Me Button</string>
+</resources>

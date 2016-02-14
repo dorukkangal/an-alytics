@@ -1,0 +1,7 @@
+<resources>
+    <string name="ga_trackingId"></string>
+    <string name="ga_appName">An-alytics Sample</string>
+
+    <integer name="ga_dispatchPeriod">60</integer>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+</resources>
