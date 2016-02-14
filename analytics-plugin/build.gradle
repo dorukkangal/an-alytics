@@ -1,0 +1,25 @@
+apply plugin: 'groovy'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.dorukkangal'
+
+repositories {
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:1.5.0'
+    compile 'org.aspectj:aspectjtools:1.8.8'
+    compile 'org.aspectj:aspectjrt:1.8.8'
+}
