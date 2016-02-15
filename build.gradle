@@ -15,3 +15,14 @@ allprojects {
         jcenter()
     }
 }
+
+ext {
+    compileSdkVersion = 23
+    buildToolsVersion = '23.0.2'
+    minSdkVersion = 10
+    targetSdkVersion = 23
+}
+
+ext.deps = [
+        appCompatv7: 'com.android.support:appcompat-v7:23.1.1',
+]
