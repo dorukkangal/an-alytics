@@ -31,6 +31,10 @@ class AnalyticsPlugin implements Plugin<Project> {
             variants = project.android.libraryVariants
         }
 
+        project.dependencies {
+            compile 'com.github.dorukkangal.an-alytics:analytics-runtime:1.0.0'
+        }
+
         variants.all { variant ->
             JavaCompile javaCompile = variant.javaCompile
             variant.javaCompile.doLast {
