@@ -1,0 +1,34 @@
+// Finds the android sdk path.
+def sdkPath() {
+    String sdkDir = null
+    def rootDir = project.rootDir
+    def localProperties = new File(rootDir, "local.properties")
+    if (localProperties.exists()) {
+        Properties properties = new Properties()
+        localProperties.withInputStream { instr ->
+            properties.load(instr)
+        }
+        sdkDir = properties.getProperty('sdk.dir')
+
+    } else {
+        String envVar = System.getenv("ANDROID_HOME")
+        if (envVar != null) {
+            sdkDir = envVar
+        } else {
+            String property = System.getProperty("android.home")
+            if (property != null) {
+                sdkDir = property
+            }
+        }
+    }
+
+    if (null == sdkDir) {
+        throw new RuntimeException("Android Jar could not be found.")
+    }
+
+    return sdkDir + "/extras/android/m2repository"
+}
+
+ext {
+    sdkPath = this.&sdkPath
+}
