@@ -51,6 +51,10 @@ public final class AnalyticsManager {
         trackEvent(event.getCategory(), event.getAction(), event.getLabel(), event.getValue());
     }
 
+    public void trackEvent(String category, String action, String label, long value) {
+        trackEvent(getStringResId(category), getStringResId(action), getStringResId(label), value);
+    }
+
     public void trackEvent(@StringRes int category, @StringRes int action, @StringRes int label, long value) {
 
         Tracker tracker = getTracker();
@@ -64,6 +68,10 @@ public final class AnalyticsManager {
         if (debugMode) {
             Log.i(TAG, String.format("trackEvent(%s, %s, %s, %s)", category, action, label, value));
         }
+    }
+
+    public void trackScreen(String screenName) {
+        trackScreen(getStringResId(screenName));
     }
 
     public void trackScreen(@StringRes int screenName) {
@@ -85,5 +93,11 @@ public final class AnalyticsManager {
             tracker = GoogleAnalytics.getInstance(context).newTracker(configResId);
         }
         return tracker;
+    }
+
+    @StringRes
+    private int getStringResId(String resourceName) {
+        return context.getResources()
+                .getIdentifier(resourceName, "string", context.getApplicationContext().getPackageName());
     }
 }

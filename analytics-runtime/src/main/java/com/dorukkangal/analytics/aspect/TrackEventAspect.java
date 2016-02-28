@@ -1,7 +1,6 @@
 package com.dorukkangal.analytics.aspect;
 
 import com.dorukkangal.analytics.AnalyticsManager;
-import com.dorukkangal.analytics.annotation.TrackEvent;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,6 +15,11 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Aspect
 public final class TrackEventAspect {
 
+    private static final String APPLICATION_POINTCUT_METHOD = "execution(@com.dorukkangal.analytics.annotation.TrackEvent * *(..))";
+    private static final String APPLICATION_POINTCUT_CONSTRUCTOR = "execution(@com.dorukkangal.analytics.annotation.TrackEvent *.new(..))";
+    private static final String LIBRARY_POINTCUT_METHOD = "execution(@com.dorukkangal.analytics.annotation.library.TrackEvent * *(..))";
+    private static final String LIBRARY_POINTCUT_CONSTRUCTOR = "execution(@com.dorukkangal.analytics.annotation.library.TrackEvent *.new(..))";
+
     public static TrackEventAspect aspectOf() {
         return new TrackEventAspect();
     }
@@ -23,26 +27,55 @@ public final class TrackEventAspect {
     private TrackEventAspect() {
     }
 
-    @Pointcut("execution(@com.dorukkangal.analytics.annotation.TrackEvent * *(..))")
-    public void method() {
+    @Pointcut(APPLICATION_POINTCUT_METHOD)
+    public void applicationMethod() {
     }
 
-    @Pointcut("execution(@com.dorukkangal.analytics.annotation.TrackEvent *.new(..))")
-    public void constructor() {
+    @Pointcut(APPLICATION_POINTCUT_CONSTRUCTOR)
+    public void applicationConstructor() {
     }
 
-    @Around("method() || constructor()")
-    public Object sendTrack(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("applicationMethod() || applicationConstructor()")
+    public Object sendApplicationTrack(ProceedingJoinPoint joinPoint) throws Throwable {
         final Object object = joinPoint.proceed();
 
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        final TrackEvent trackEvent = methodSignature.getMethod().getAnnotation(TrackEvent.class);
+        final com.dorukkangal.analytics.annotation.TrackEvent trackEvent
+                = methodSignature.getMethod().getAnnotation(com.dorukkangal.analytics.annotation.TrackEvent.class);
+
         AnalyticsManager.getInstance().trackEvent(
                 trackEvent.category(),
                 trackEvent.action(),
                 trackEvent.label(),
                 trackEvent.value()
         );
+
+        return object;
+    }
+
+    @Pointcut(LIBRARY_POINTCUT_METHOD)
+    public void libraryMethod() {
+    }
+
+    @Pointcut(LIBRARY_POINTCUT_CONSTRUCTOR)
+    public void libraryConstructor() {
+    }
+
+    @Around("libraryMethod() || libraryConstructor()")
+    public Object sendLibraryTrack(ProceedingJoinPoint joinPoint) throws Throwable {
+        final Object object = joinPoint.proceed();
+
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        final com.dorukkangal.analytics.annotation.library.TrackEvent trackEvent
+                = methodSignature.getMethod().getAnnotation(com.dorukkangal.analytics.annotation.library.TrackEvent.class);
+
+        AnalyticsManager.getInstance().trackEvent(
+                trackEvent.category(),
+                trackEvent.action(),
+                trackEvent.label(),
+                trackEvent.value()
+        );
+
         return object;
     }
 }
