@@ -1,12 +1,12 @@
 package com.dorukkangal.analytics.sample;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.dorukkangal.analytics.annotation.TrackEvent;
 import com.dorukkangal.analytics.annotation.TrackScreen;
+import com.dorukkangal.analytics.sample.library.SampleLibraryActivity;
 
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,18 +16,13 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        findViewById(R.id.button).setOnClickListener(this);
+        findViewById(R.id.button_click_me).setOnClickListener(this);
+        findViewById(R.id.button_next).setOnClickListener(this);
     }
 
-    @TrackEvent(category = R.string.analytics_category, action = R.string.analytics_action, label = R.string.analytics_label)
     @Override
     public void onClick(View v) {
-        new AlertDialog.Builder(this)
-                .setTitle("Analytics Info")
-                .setMessage("Category: " + getString(R.string.analytics_category) +
-                        "\nAction: " + getString(R.string.analytics_action) +
-                        "\nLabel: " + getString(R.string.analytics_label)
-                )
-                .show();
+        Intent intent = new Intent(this, SampleLibraryActivity.class);
+        startActivity(intent);
     }
 }

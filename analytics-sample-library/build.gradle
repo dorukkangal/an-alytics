@@ -5,7 +5,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.dorukkangal.an-alytics:analytics-plugin:1.0.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.github.dorukkangal.an-alytics:analytics-plugin:2.0.0'
     }
 }
 
@@ -14,7 +15,8 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.dorukkangal.analytics'
 
 android {
@@ -22,12 +24,12 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.dorukkangal.analytics.sample"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -40,9 +42,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile deps.appCompatv7
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
 
-    compile 'com.github.dorukkangal.an-alytics:analytics-runtime:1.0.0'
-
-    compile project(':analytics-sample-library')
+    compile 'com.github.dorukkangal.an-alytics:analytics-runtime:2.0.0'
 }
