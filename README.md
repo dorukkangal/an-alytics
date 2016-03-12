@@ -58,6 +58,18 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
+## In Android Library Project
+An-alytics can also be used in the Android library project. The B class(contains all field names in the R class as final string values) should be used instead of R-class to solve non-final id problem.
+```java
+@TrackScreen(name = B.string.screen)
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    ...
+}
+```
+
 ## Manual track
 Sometimes, you cannot use annotations (if your tracks require a condition for example). In this case, you can use trackers manually :
 ```java
